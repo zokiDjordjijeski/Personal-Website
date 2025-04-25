@@ -111,7 +111,6 @@
     e.preventDefault();
 
     // In a real implementation, you would send the form data to a server
-    alert('Thank you for your message! In a real implementation, this would be sent to a server.');
     contactForm.reset();
 });
 
