@@ -189,3 +189,68 @@
         }, 300);
     });
 });
+
+    // Timeline Animation
+    function initTimelineAnimation() {
+        const timelineItems = document.querySelectorAll('.timeline-item');
+
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const animationType = entry.target.getAttribute('data-animate');
+                    entry.target.classList.add('animate');
+
+                    if (animationType === 'slide-right') {
+                        entry.target.style.transform = 'translateX(0) translateY(0)';
+                    } else if (animationType === 'slide-left') {
+                        entry.target.style.transform = 'translateX(0) translateY(0)';
+                    }
+                }
+            });
+        }, { threshold: 0.2 });
+
+        timelineItems.forEach((item, index) => {
+            const animationType = item.getAttribute('data-animate');
+
+            if (animationType === 'slide-right') {
+                item.style.transform = 'translateX(-50px) translateY(50px)';
+            } else if (animationType === 'slide-left') {
+                item.style.transform = 'translateX(50px) translateY(50px)';
+            }
+
+            timelineObserver.observe(item);
+        });
+    }
+
+    // Initialize timeline animation when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initTimelineAnimation);
+
+    // Add staggered animation to subject items
+    function animateSubjectItems() {
+        const subjectItems = document.querySelectorAll('.subject-item');
+
+        subjectItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                item.style.transition = 'all 0.5s ease';
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    }
+
+    // Trigger subject items animation when timeline is visible
+    const gradesSection = document.querySelector('#grades');
+    if (gradesSection) {
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(animateSubjectItems, 500);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        sectionObserver.observe(gradesSection);
+    }
